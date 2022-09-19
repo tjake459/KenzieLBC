@@ -1,8 +1,8 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.ExampleRepository;
-import com.kenzie.appserver.repositories.model.ExampleRecord;
-import com.kenzie.appserver.service.model.Example;
+import com.kenzie.appserver.repositories.model.ItemRecord;
+import com.kenzie.appserver.service.model.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,18 +31,18 @@ public class ExampleServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        ExampleRecord record = new ExampleRecord();
+        ItemRecord record = new ItemRecord();
         record.setId(id);
-        record.setName("concertname");
+        record.setGenericName("itemName");
 
         // WHEN
         when(exampleRepository.findById(id)).thenReturn(Optional.of(record));
-        Example example = exampleService.findById(id);
+        Item item = exampleService.findById(id);
 
         // THEN
-        Assertions.assertNotNull(example, "The object is returned");
-        Assertions.assertEquals(record.getId(), example.getId(), "The id matches");
-        Assertions.assertEquals(record.getName(), example.getName(), "The name matches");
+        Assertions.assertNotNull(item, "The object is returned");
+        Assertions.assertEquals(record.getId(), item.getId(), "The id matches");
+        Assertions.assertEquals(record.getGenericName(), item.getGenericName(), "The generic name matches");
     }
 
     @Test
@@ -53,10 +53,10 @@ public class ExampleServiceTest {
         when(exampleRepository.findById(id)).thenReturn(Optional.empty());
 
         // WHEN
-        Example example = exampleService.findById(id);
+        Item item = exampleService.findById(id);
 
         // THEN
-        Assertions.assertNull(example, "The example is null when not found");
+        Assertions.assertNull(item, "The item is null when not found");
     }
 
 }

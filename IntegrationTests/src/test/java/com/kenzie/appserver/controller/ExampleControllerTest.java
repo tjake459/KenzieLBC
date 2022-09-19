@@ -3,7 +3,7 @@ package com.kenzie.appserver.controller;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.ExampleCreateRequest;
 import com.kenzie.appserver.service.ExampleService;
-import com.kenzie.appserver.service.model.Example;
+import com.kenzie.appserver.service.model.Item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,17 +34,17 @@ class ExampleControllerTest {
 
     @Test
     public void getById_Exists() throws Exception {
-        String id = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
+        String genericName = "testName";
+        String location = "testLocation";
 
-        Example example = new Example(id, name);
-        Example persistedExample = exampleService.addNewExample(example);
-        mvc.perform(get("/example/{id}", persistedExample.getId())
+        Item item = new Item(genericName, location);
+        Item persistedItem = exampleService.addNewExample(item);
+        mvc.perform(get("/example/{id}", persistedItem.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")
-                        .value(is(id)))
-                .andExpect(jsonPath("name")
-                        .value(is(name)))
+                        .value(is(item.getId())))
+                .andExpect(jsonPath("genericName")
+                        .value(is(genericName)))
                 .andExpect(status().isOk());
     }
 
