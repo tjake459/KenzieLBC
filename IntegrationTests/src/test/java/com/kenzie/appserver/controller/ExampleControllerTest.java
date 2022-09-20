@@ -2,7 +2,7 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.ExampleCreateRequest;
-import com.kenzie.appserver.service.ExampleService;
+import com.kenzie.appserver.service.ItemService;
 import com.kenzie.appserver.service.model.Item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,7 @@ class ExampleControllerTest {
     private MockMvc mvc;
 
     @Autowired
-    ExampleService exampleService;
+    ItemService itemService;
 
     private final MockNeat mockNeat = MockNeat.threadLocal();
 
@@ -38,7 +38,7 @@ class ExampleControllerTest {
         String location = "testLocation";
 
         Item item = new Item(genericName, location);
-        Item persistedItem = exampleService.addNewExample(item);
+        Item persistedItem = itemService.addNewExample(item);
         mvc.perform(get("/example/{id}", persistedItem.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")

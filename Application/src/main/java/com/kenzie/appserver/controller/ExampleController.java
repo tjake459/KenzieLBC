@@ -2,7 +2,7 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.ExampleCreateRequest;
 import com.kenzie.appserver.controller.model.ExampleResponse;
-import com.kenzie.appserver.service.ExampleService;
+import com.kenzie.appserver.service.ItemService;
 
 import com.kenzie.appserver.service.model.Item;
 import org.springframework.http.ResponseEntity;
@@ -10,22 +10,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
-import static java.util.UUID.randomUUID;
-
 @RestController
 @RequestMapping("/example")
 public class ExampleController {
 
-    private ExampleService exampleService;
+    private ItemService itemService;
 
-    ExampleController(ExampleService exampleService) {
-        this.exampleService = exampleService;
+    ExampleController(ItemService itemService) {
+        this.itemService = itemService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ExampleResponse> get(@PathVariable("id") String id) {
 
-        Item item = exampleService.findById(id);
+        Item item = itemService.getItem(id);
         if (item == null) {
             return ResponseEntity.notFound().build();
         }
@@ -39,7 +37,7 @@ public class ExampleController {
     @PostMapping
     public ResponseEntity<ExampleResponse> addNewConcert(@RequestBody ExampleCreateRequest exampleCreateRequest) {
         Item item = new Item("testName", "testLocation");
-        exampleService.addNewExample(item);
+        itemService.addItem(item);
 
         ExampleResponse exampleResponse = new ExampleResponse();
         exampleResponse.setGenericName(item.getGenericName());
