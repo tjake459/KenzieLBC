@@ -10,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.*;
@@ -77,22 +78,26 @@ public class ItemServiceTest {
     @Test
     void updateItem() {
         //GIVEN
-        ItemRecord itemRecord = new ItemRecord();
-        itemRecord.setLocation("location");
-        itemRecord.setGenericName("name");
+        Item item = new Item("name","location");
+        itemService.addItem(item);
 
+        ArgumentCaptor<ItemRecord> itemRecordArgumentCaptor = ArgumentCaptor.forClass(ItemRecord.class);
 
-        Item item = new Item(itemRecord.getGenericName(),itemRecord.getLocation());
 
         //WHEN
         item.setLocation("new location");
-        itemService.updateItem(item);
-
+        Item returnedItem = itemService.updateItem(item);
 
 
         //THEN
+        Assertions.assertNotNull(returnedItem);
 
-        Assertions.assertEquals("new location", item.getLocation(), "The item locations has been updated");
+        verify(itemRepository, times(2)).save(itemRecordArgumentCaptor.capture());
+
+        ItemRecord record = itemRecordArgumentCaptor.getValue();
+        System.out.println(record.getLocation());
+
+        Assertions.assertEquals(record.getLocation(), item.getLocation(), "The item locations has been updated");
 
     }
 
@@ -102,15 +107,43 @@ public class ItemServiceTest {
         Item item = new Item("name", "location");
         itemService.addItem(item);
 
+
         //WHEN
         itemService.deleteItem(item.getId());
 
 
-
         //THEN
+
+        verify(itemRepository).deleteById(item.getId());
+        
         Assertions.assertFalse(itemRepository.existsById(item.getId()));
+    }
 
+    @Test
+    void getItemById() {
+        // GIVEN
+        String itemId = randomUUID().toString();
 
+        ItemRecord record = new ItemRecord();
+        record.setId(itemId);
+        record.setLocation("location");
+        record.setGenericName("name");
+        record.setWeight("weight");
+        record.setFillLevel(50);
+        record.setBrandName("brandname");
+        record.setExpirationDate("date");
+        when(itemRepository.findById(itemId)).thenReturn(Optional.of(record));
+        // WHEN
+        Item item = itemService.getItem(itemId);
+
+        // THEN
+        Assertions.assertNotNull(item, "The item is returned");
+        Assertions.assertEquals(record.getGenericName(), item.getGenericName(), "The item name matches");
+        Assertions.assertEquals(record.getExpirationDate(), item.getExpirationDate(), "The item expiration date matches");
+        Assertions.assertEquals(record.getLocation(), item.getLocation(), "the item location matches");
+        Assertions.assertEquals(record.getWeight(), item.getWeight(), "the item weight matches");
+        Assertions.assertEquals(record.getFillLevel(), item.getFillLevel(), "the item fill level matches");
+        Assertions.assertEquals(record.getBrandName(), item.getBrandName(), "the item brand name matches");
 
     }
 

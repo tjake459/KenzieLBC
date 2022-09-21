@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -35,14 +36,30 @@ public class ItemService {
         return item;
     }
 
-    public void updateItem(Item item) {
-        if (itemRepository.existsById(item.getId())) {
-            ItemRecord itemRecord = new ItemRecord(item);
-            itemRepository.save(itemRecord);
-        }
+    public Item updateItem(Item item) {
+        ItemRecord itemRecord = new ItemRecord(item);
+        itemRepository.save(itemRecord);
+        return item;
     }
 
-    public void deleteItem (String itemId) {
+    public void deleteItem(String itemId) {
         itemRepository.deleteById(itemId);
     }
+
+    //create exception in update
+
+    public Item getItem(String itemId) {
+        Item itemFromBackEnd = itemRepository
+                .findById(itemId)
+                .map(item -> new Item(
+                        item.getGenericName(),
+                        item.getBrandName(),
+                        item.getWeight(),
+                        item.getExpirationDate(),
+                        item.getFillLevel(),
+                        item.getLocation()))
+                .orElse(null);
+        return itemFromBackEnd;
+    }
+
 }
