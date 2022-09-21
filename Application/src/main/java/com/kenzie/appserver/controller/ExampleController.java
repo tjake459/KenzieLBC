@@ -20,29 +20,29 @@ public class ExampleController {
         this.itemService = itemService;
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ExampleResponse> get(@PathVariable("id") String id) {
-//
-//        Item item = itemService.getItem(id);
-//        if (item == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        ExampleResponse exampleResponse = new ExampleResponse();
-//        exampleResponse.setId(item.getId());
-//        exampleResponse.setName(item.getGenericName());
-//        return ResponseEntity.ok(exampleResponse);
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<ExampleResponse> addNewConcert(@RequestBody ExampleCreateRequest exampleCreateRequest) {
-//        Item item = new Item("testName", "testLocation");
-//        itemService.addItem(item);
-//
-//        ExampleResponse exampleResponse = new ExampleResponse();
-//        exampleResponse.setGenericName(item.getGenericName());
-//        exampleResponse.setLocation(item.getLocation());
-//
-//        return ResponseEntity.created(URI.create("/item/" + exampleResponse.getId())).body(exampleResponse);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ExampleResponse> get(@PathVariable("id") String id) {
+
+        Item item = itemService.getItem(id);
+        if (item == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ExampleResponse exampleResponse = new ExampleResponse();
+        exampleResponse.setId(item.getId());
+        exampleResponse.setName(item.getGenericName());
+        return ResponseEntity.ok(exampleResponse);
+    }
+
+    @PostMapping
+    public ResponseEntity<ExampleResponse> addNewConcert(@RequestBody ExampleCreateRequest exampleCreateRequest) {
+        Item item = new Item("testName", "testLocation");
+        itemService.addItem(item);
+
+        ExampleResponse exampleResponse = new ExampleResponse();
+        exampleResponse.setGenericName(item.getGenericName());
+        exampleResponse.setLocation(item.getLocation());
+
+        return ResponseEntity.created(URI.create("/item/" + exampleResponse.getId())).body(exampleResponse);
+    }
 }
