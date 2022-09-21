@@ -1,7 +1,7 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.ExampleCreateRequest;
+import com.kenzie.appserver.controller.model.ItemCreateRequest;
 import com.kenzie.appserver.service.ItemService;
 import com.kenzie.appserver.service.model.Item;
 
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @IntegrationTest
-class ExampleControllerTest {
+class ItemControllerTest {
     @Autowired
     private MockMvc mvc;
 
@@ -38,7 +38,7 @@ class ExampleControllerTest {
         String location = "testLocation";
 
         Item item = new Item(genericName, location);
-        Item persistedItem = itemService.addNewExample(item);
+        Item persistedItem = itemService.addItem(item);
         mvc.perform(get("/example/{id}", persistedItem.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")
@@ -52,15 +52,15 @@ class ExampleControllerTest {
     public void createExample_CreateSuccessful() throws Exception {
         String name = mockNeat.strings().valStr();
 
-        ExampleCreateRequest exampleCreateRequest = new ExampleCreateRequest();
-        exampleCreateRequest.setName(name);
+        ItemCreateRequest itemCreateRequest = new ItemCreateRequest();
+
 
         mapper.registerModule(new JavaTimeModule());
 
         mvc.perform(post("/example")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(exampleCreateRequest)))
+                        .content(mapper.writeValueAsString(itemCreateRequest)))
                 .andExpect(jsonPath("id")
                         .exists())
                 .andExpect(jsonPath("name")
