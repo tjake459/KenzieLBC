@@ -26,8 +26,8 @@ public class ItemService {
         List<Item> items = new ArrayList<>();
         itemRepository
                 .getItemsInContainer(location)
-                .forEach(item -> items.add(new Item(item.getGenericName(), item.getLocation(), item.getWeight(),
-                        item.getExpirationDate(), item.getFillLevel(), item.getBrandName())));
+                .forEach(item -> items.add(new Item(item.getGenericName(), item.getBrandName(), item.getWeight(),
+                        item.getExpirationDate(), item.getFillLevel(), item.getLocation())));
         return items;
     }
 
@@ -47,7 +47,6 @@ public class ItemService {
         itemRepository.deleteById(itemId);
     }
 
-    //create exception in update
 
     public Item getItem(String itemId) {
         Item itemFromBackEnd = itemRepository

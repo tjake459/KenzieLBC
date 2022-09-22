@@ -39,10 +39,12 @@ public class ItemServiceTest {
 
 
         Item item = new Item("name", location);
-        Item item2 = new Item("name2", location);
+        Item item2 = new Item("name2","brand","weight","date",50,
+                "location2");
         List<Item> items = new ArrayList<>();
         items.add(item);
         items.add(item2);
+
 
         // WHEN
         when(itemRepository.getItemsInContainer(location)).thenReturn(items);
@@ -50,6 +52,15 @@ public class ItemServiceTest {
 
         // THEN
         Assertions.assertEquals(items.size(), 2);
+        Assertions.assertEquals(item.getLocation(),items.get(0).getLocation());
+        Assertions.assertEquals(item.getBrandName(),items.get(0).getBrandName());
+        Assertions.assertEquals(item2.getGenericName(),items.get(1).getGenericName());
+        Assertions.assertEquals(item2.getBrandName(),items.get(1).getBrandName());
+        Assertions.assertEquals(item2.getWeight(),items.get(1).getWeight());
+        Assertions.assertEquals(item2.getExpirationDate(),items.get(1).getExpirationDate());
+        Assertions.assertEquals(item2.getFillLevel(),items.get(1).getFillLevel());
+        Assertions.assertEquals(item2.getLocation(),items.get(1).getLocation());
+
     }
 
     @Test
@@ -106,6 +117,7 @@ public class ItemServiceTest {
         //GIVEN
         Item item = new Item("name", "location");
         itemService.addItem(item);
+        System.out.println(itemRepository.existsById(item.getId()));
 
 
         //WHEN
