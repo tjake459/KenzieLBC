@@ -1,15 +1,13 @@
 package com.kenzie.appserver.repositories.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.kenzie.appserver.service.model.Item;
 
 import java.util.Objects;
 
-// TODO: change DynamoDB table name
-@DynamoDBTable(tableName = "Example")
+@DynamoDBTable(tableName = "PantryTable")
 public class ItemRecord {
+    public static final String LOCATION_INDEX = "LocationIndex";
 
     private String id;
     private String genericName;
@@ -42,37 +40,39 @@ public class ItemRecord {
         this.location = item.getLocation();
     }
 
-    @DynamoDBHashKey(attributeName = "Id")
+    @DynamoDBHashKey(attributeName = "id")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = LOCATION_INDEX, attributeName = "id")
     public String getId() {
         return id;
     }
 
-    @DynamoDBAttribute(attributeName = "GenericName")
+    @DynamoDBAttribute(attributeName = "genericName")
     public String getGenericName() {
         return genericName;
     }
 
-    @DynamoDBAttribute(attributeName = "BrandName")
+    @DynamoDBAttribute(attributeName = "brandName")
     public String getBrandName() {
         return brandName;
     }
 
-    @DynamoDBAttribute(attributeName = "Weight")
+    @DynamoDBAttribute(attributeName = "weight")
     public String getWeight() {
         return weight;
     }
 
-    @DynamoDBAttribute(attributeName = "ExpirationDate")
+    @DynamoDBAttribute(attributeName = "expirationDate")
     public String getExpirationDate() {
         return expirationDate;
     }
 
-    @DynamoDBAttribute(attributeName = "FillLevel")
+    @DynamoDBAttribute(attributeName = "fillLevel")
     public int getFillLevel() {
         return fillLevel;
     }
 
-    @DynamoDBAttribute(attributeName = "Location")
+    @DynamoDBAttribute(attributeName = "location")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = LOCATION_INDEX, attributeName = "location")
     public String getLocation() {
         return location;
     }

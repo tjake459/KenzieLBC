@@ -1,0 +1,33 @@
+Resources:
+  PantryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      "AttributeDefinitions":
+        - "AttributeName": "genericName"
+          "AttributeType": "S"
+        - "AttributeName": "brandName"
+          "AttributeType": "S"
+        - "AttributeName": "weight"
+          "AttributeType": "S"
+        - "AttributeName": "expirationDate"
+          "AttributeType": "S"
+        - "AttributeName": "fillLevel"
+          "AttributeType": "S"
+        - "AttributeName": "location"
+          "AttributeType": "S"
+      "KeySchema":
+        - "AttributeName": "id"
+          "KeyType": "HASH"
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: false
+      BillingMode: PAY_PER_REQUEST
+      TableName: "Pantry"
+      GlobalSecondaryIndexes:
+        - IndexName: "LocationIndex"
+          KeySchema:
+            - AttributeName: "location"
+              KeyType: "HASH"
+            - AttributeName: "id"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
