@@ -5,6 +5,7 @@ import com.kenzie.appserver.repositories.ItemRepository;
 import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Item;
 import com.sun.tools.javac.comp.Todo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import java.util.Optional;
 @Service
 public class ItemService {
     private ItemRepository itemRepository;
-
 
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
