@@ -13,7 +13,6 @@ import java.util.List;
 public class ItemService {
     private ItemRepository itemRepository;
 
-
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
 

@@ -67,4 +67,24 @@ class ItemControllerTest {
                         .value(is(name)))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    public void getItemsInContainer_withValidContainer_returnsTrue(){
+
+    }
+
+    @Test
+    public void addNewItem_withValidRequest_returnsTrue(){
+
+    }
+
+    @Test
+    public void deleteItem_withValidItem_returnsTrue() {
+
+    }
+
+    @Test
+    public void updateItem_withValidItem_returnsTrue(){
+
+    }
 }
