@@ -10,6 +10,7 @@ public class ItemCreateRequest {
     @JsonProperty("id")
     private String id;
 
+    @NotEmpty
     @JsonProperty("genericName")
     private String genericName;
 
@@ -26,6 +27,7 @@ public class ItemCreateRequest {
     @JsonProperty("fillLevel")
     private String fillLevel;
 
+    @NotEmpty
     @JsonProperty("location")
     private String location;
 

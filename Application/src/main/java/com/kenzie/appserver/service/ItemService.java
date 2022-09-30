@@ -4,12 +4,10 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.repositories.ItemRepository;
 import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Item;
-import com.sun.tools.javac.comp.Todo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -25,7 +23,7 @@ public class ItemService {
     public List<Item> getItemsInContainer(String location) {
         List<Item> items = new ArrayList<>();
         itemRepository
-                .getItemsInContainer(location)
+                .findByLocation(location)
                 .forEach(item -> items.add(new Item(item.getGenericName(), item.getBrandName(), item.getWeight(),
                         item.getExpirationDate(), item.getFillLevel(), item.getLocation())));
         return items;

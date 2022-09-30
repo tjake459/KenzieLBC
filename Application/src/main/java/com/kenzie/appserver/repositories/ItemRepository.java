@@ -9,6 +9,6 @@ import java.util.List;
 
 @EnableScan
 public interface ItemRepository extends CrudRepository<ItemRecord, String> {
-    List<Item> getItemsInContainer(String location);
+    List<Item> findByLocation(String location);
 
 }

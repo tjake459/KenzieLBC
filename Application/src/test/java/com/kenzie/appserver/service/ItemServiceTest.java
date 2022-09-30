@@ -47,7 +47,7 @@ public class ItemServiceTest {
 
 
         // WHEN
-        when(itemRepository.getItemsInContainer(location)).thenReturn(items);
+        when(itemRepository.findByLocation(location)).thenReturn(items);
 
 
         // THEN
