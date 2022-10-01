@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/form.css">
+    <title>Update Item</title>
+</head>
+<body class="background">
+    <div class="topnav">
+        <img src="assets/logo.png" alt="Hammerhead-Log">
+        <a href="main.html">Home</a>
+        <a href="addItem.html">Add Item</a>
+        <a class="active" href="#">Update Item</a>
+        <a href="removeItem.html">Remove Item</a>
+    </div>
+
+    <div class="sidebar">
+        <a class="active" href="#container">Containers</a>
+        <a href="#pantry">Pantry</a>
+        <a href="#refrigerator">Refrigerator</a>
+        <a href="#cabinet">Cabinet</a>
+    </div>
+    <div class="container">
+        <form>
+            <h1 class="formHeader">Update Item</h1>
+            <div class="row">
+                <div class="col-25">
+                    <label for="itemId">Item ID</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="itemId" name="itemId" placeholder="Item ID..">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="genericName">Generic Name</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="genericName" name="genericName" placeholder="Item name..">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="brandName">Brand Name</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="brandName" name="brandName" placeholder="Item's brand name..">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="weight">Weight</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="weight" name="weight" placeholder="Approximate weight..">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="expirationDate">Expiration Date</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="expirationDate" name="expirationDate" placeholder="Estimated expiration date..">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="fillLevel">Fill Level</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="fillLevel" name="fillLevel" placeholder="Approximate fill level..">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="itemLocation">Location</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="itemLocation" name="itemLocation" placeholder="Where are you storing the item..">
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Submit Update">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
