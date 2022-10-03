@@ -39,7 +39,7 @@ public class ItemServiceTest {
 
 
         Item item = new Item("name", location);
-        Item item2 = new Item("name2","brand","weight","date",50,
+        Item item2 = new Item("id1", "name2","brand","weight","date",50,
                 "location2");
         List<Item> items = new ArrayList<>();
         items.add(item);

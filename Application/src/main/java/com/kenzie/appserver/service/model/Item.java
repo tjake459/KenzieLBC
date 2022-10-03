@@ -23,10 +23,15 @@ public class Item {
         this.location = location;
     }
 
-    // full constructor with all parameters (generating ID in constructor)
-    public Item(String genericName, String brandName, String weight,
+    // full constructor with all parameters including ID; if ID is null/empty, an ID will be generated
+    // (this will be the default behavior for adding an item via the site)
+    public Item(String id, String genericName, String brandName, String weight,
                 String expirationDate, int fillLevel, String location) {
-        this.id = UUID.randomUUID().toString();
+        if (id == null || id.equals("")) {
+            this.id = UUID.randomUUID().toString();
+        } else {
+            this.id = id;
+        }
         this.genericName = genericName;
         this.brandName = brandName;
         this.weight = weight;

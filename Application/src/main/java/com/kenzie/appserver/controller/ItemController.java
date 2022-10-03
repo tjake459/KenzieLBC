@@ -5,6 +5,7 @@ import com.kenzie.appserver.controller.model.ItemResponse;
 import com.kenzie.appserver.service.ItemService;
 
 import com.kenzie.appserver.service.model.Item;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,11 +42,16 @@ public class ItemController {
     public ResponseEntity<ItemResponse> addNewItem(@RequestBody ItemCreateRequest itemCreateRequest) {
         //Convert the ItemCreateRequest into an Item
         Item item = convertRequestIntoItem(itemCreateRequest);
-        itemService.addItem(item);
+        try {
+            itemService.addItem(item);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 
         //Convert the Item into an ItemResponse
         ItemResponse itemResponse = convertItemIntoResponse(item);
-        return ResponseEntity.created(URI.create("/item/" + itemResponse.getId())).body(itemResponse);
+//        return ResponseEntity.created(URI.create("/item/" + itemResponse.getId())).body(itemResponse);
+        return ResponseEntity.ok().body(itemResponse);
     }
 
     @DeleteMapping("/{itemId}")
@@ -55,14 +61,14 @@ public class ItemController {
     }
 
     @PutMapping
-    public ResponseEntity updateItem(@RequestBody Item item) {
-        ItemResponse response = convertItemIntoResponse(itemService.updateItem(item));
+    public ResponseEntity updateItem(@RequestBody ItemCreateRequest request) {
+        ItemResponse response = convertItemIntoResponse(itemService.updateItem(convertRequestIntoItem(request)));
         return ResponseEntity.ok(response);
     }
 
     //Helper method to convert an ItemCreateRequest into an Item
     private Item convertRequestIntoItem(ItemCreateRequest request) {
-        return new Item(request.getGenericName(), request.getBrandName(), request.getWeight(),
+        return new Item(request.getId(), request.getGenericName(), request.getBrandName(), request.getWeight(),
                 request.getExpirationDate(), Integer.parseInt(request.getFillLevel()),
                 request.getLocation());
     }
