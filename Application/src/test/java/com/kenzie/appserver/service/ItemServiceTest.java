@@ -38,28 +38,30 @@ public class ItemServiceTest {
         String location = randomUUID().toString();
 
 
-        Item item = new Item("name", location);
+        Item item1 = new Item("name", location);
         Item item2 = new Item("id1", "name2","brand","weight","date",50,
                 "location2");
-        List<Item> items = new ArrayList<>();
-        items.add(item);
-        items.add(item2);
+        ItemRecord record1 = new ItemRecord(item1);
+        ItemRecord record2 = new ItemRecord(item2);
+        List<ItemRecord> records = new ArrayList<>();
+        records.add(record1);
+        records.add(record2);
 
 
         // WHEN
-        when(itemRepository.findByLocation(location)).thenReturn(items);
+        when(itemRepository.findByLocation(location)).thenReturn(records);
 
 
         // THEN
-        Assertions.assertEquals(items.size(), 2);
-        Assertions.assertEquals(item.getLocation(),items.get(0).getLocation());
-        Assertions.assertEquals(item.getBrandName(),items.get(0).getBrandName());
-        Assertions.assertEquals(item2.getGenericName(),items.get(1).getGenericName());
-        Assertions.assertEquals(item2.getBrandName(),items.get(1).getBrandName());
-        Assertions.assertEquals(item2.getWeight(),items.get(1).getWeight());
-        Assertions.assertEquals(item2.getExpirationDate(),items.get(1).getExpirationDate());
-        Assertions.assertEquals(item2.getFillLevel(),items.get(1).getFillLevel());
-        Assertions.assertEquals(item2.getLocation(),items.get(1).getLocation());
+        Assertions.assertEquals(records.size(), 2);
+        Assertions.assertEquals(record1.getLocation(),records.get(0).getLocation());
+        Assertions.assertEquals(record1.getBrandName(),records.get(0).getBrandName());
+        Assertions.assertEquals(record2.getGenericName(),records.get(1).getGenericName());
+        Assertions.assertEquals(record2.getBrandName(),records.get(1).getBrandName());
+        Assertions.assertEquals(record2.getWeight(),records.get(1).getWeight());
+        Assertions.assertEquals(record2.getExpirationDate(),records.get(1).getExpirationDate());
+        Assertions.assertEquals(record2.getFillLevel(),records.get(1).getFillLevel());
+        Assertions.assertEquals(record2.getLocation(),records.get(1).getLocation());
 
     }
 
