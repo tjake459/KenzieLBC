@@ -81,13 +81,13 @@ div.content {
 	border: 1px solid #ddd; /* Add a grey border */
 	margin-bottom: 12px; /* Add some space below the input */
 	margin-top: 40px;
-	margin-left: 270px;
+	margin-left: 250px;
 	margin-right: auto;
-	width: 900px;
+	width: 66%;
 }
 
 #itemTable {
-	margin-left: auto;
+	margin-left: 250px;
 	margin-right: auto;
 	border-collapse: collapse; /* Collapse borders */
 	width: 70%; /* Full-width */

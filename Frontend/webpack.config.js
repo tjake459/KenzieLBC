@@ -39,6 +39,45 @@ module.exports = {
         }
       ]
     }),
+    new HtmlWebpackPlugin({
+      template: './src/addItem.html',
+      filename: 'addItem.html',
+      inject: false
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/css'),
+          to: path.resolve("dist/css")
+        }
+      ]
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/updateItem.html',
+      filename: 'updateItem.html',
+      inject: false
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/css'),
+          to: path.resolve("dist/css")
+        }
+      ]
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/removeItem.html',
+      filename: 'removeItem.html',
+      inject: false
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/css'),
+          to: path.resolve("dist/css")
+        }
+      ]
+    }),
     new CleanWebpackPlugin()
   ]
 }
