@@ -39,10 +39,19 @@ public class ItemService {
         return items;
     }
 
+    public List<Item> getAllItems() {
+        List<ItemRecord> records = new ArrayList<>(itemRepository.findAll());
+        List<Item> items = new ArrayList<>();
+        for (ItemRecord record : records) {
+            items.add(createItemFromRecord(record));
+        }
+        return items;
+    }
+
     public Item addItem(Item item) {
         ItemRecord itemRecord = createRecordFromItem(item);
-        itemRepository.save(itemRecord);
-//        itemDao.addItem(item);
+//        itemRepository.save(itemRecord);
+        itemDao.addItem(item);
         return item;
     }
 
@@ -56,8 +65,8 @@ public class ItemService {
     // the call to the repository weren't commented out, because nothing is saving to the repository, and therefore
     // trying to delete something from the repository that isn't there will throw an exception
     public void deleteItem(String itemId) {
-        itemRepository.deleteById(itemId);
-//        itemDao.deleteItem(itemId);
+//        itemRepository.deleteById(itemId);
+        itemDao.deleteItem(itemId);
     }
 
 
@@ -86,6 +95,18 @@ public class ItemService {
         record.setLocation(item.getLocation());
 
         return record;
+    }
+
+    private Item createItemFromRecord(ItemRecord record) {
+        Item item = new Item(record.getId(),
+                                record.getGenericName(),
+                                record.getBrandName(),
+                                record.getWeight(),
+                                record.getExpirationDate(),
+                                record.getFillLevel(),
+                                record.getLocation());
+
+        return item;
     }
 
 }

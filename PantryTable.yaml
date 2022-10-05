@@ -3,15 +3,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       "AttributeDefinitions":
-        - "AttributeName": "genericName"
-          "AttributeType": "S"
-        - "AttributeName": "brandName"
-          "AttributeType": "S"
-        - "AttributeName": "weight"
-          "AttributeType": "S"
-        - "AttributeName": "expirationDate"
-          "AttributeType": "S"
-        - "AttributeName": "fillLevel"
+        - "AttributeName": "id"
           "AttributeType": "S"
         - "AttributeName": "location"
           "AttributeType": "S"
