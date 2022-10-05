@@ -40,14 +40,14 @@ public class ItemService {
     }
 
     public Item addItem(Item item) {
-        ItemRecord itemRecord = new ItemRecord(item);
+        ItemRecord itemRecord = createRecordFromItem(item);
         itemRepository.save(itemRecord);
 //        itemDao.addItem(item);
         return item;
     }
 
     public Item updateItem(Item item) {
-        ItemRecord itemRecord = new ItemRecord(item);
+        ItemRecord itemRecord = createRecordFromItem(item);
         itemRepository.save(itemRecord);
         return item;
     }
@@ -73,6 +73,19 @@ public class ItemService {
                         item.getFillLevel(),
                         item.getLocation()))
                 .orElse(null);
+    }
+
+    private ItemRecord createRecordFromItem(Item item) {
+        ItemRecord record = new ItemRecord();
+        record.setId(item.getId());
+        record.setGenericName(item.getGenericName());
+        record.setBrandName(item.getBrandName());
+        record.setWeight(item.getWeight());
+        record.setFillLevel(item.getFillLevel());
+        record.setExpirationDate(item.getExpirationDate());
+        record.setLocation(item.getLocation());
+
+        return record;
     }
 
 }

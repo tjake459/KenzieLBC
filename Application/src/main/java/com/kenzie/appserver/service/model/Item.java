@@ -8,7 +8,7 @@ public class Item {
     private final String brandName;
     private final String weight;
     private final String expirationDate;
-    private int fillLevel;
+    private String fillLevel;
     private String location;
 
     // bare minimum constructor (generating ID in constructor, item full by default). brandName, weight, &
@@ -19,14 +19,14 @@ public class Item {
         this.brandName = "";
         this.weight = "";
         this.expirationDate = "";
-        this.fillLevel = 100;
+        this.fillLevel = "100";
         this.location = location;
     }
 
     // full constructor with all parameters including ID; if ID is null/empty, an ID will be generated
     // (this will be the default behavior for adding an item via the site)
     public Item(String id, String genericName, String brandName, String weight,
-                String expirationDate, int fillLevel, String location) {
+                String expirationDate, String fillLevel, String location) {
         if (id == null || id.equals("")) {
             this.id = UUID.randomUUID().toString();
         } else {
@@ -40,7 +40,7 @@ public class Item {
 
         // throws an exception if fillLevel input is invalid. may change this exception to a custom one later
         // (FillLevelException?)
-        if (fillLevel > 100 || fillLevel < 0) {
+        if (Integer.parseInt(fillLevel) > 100 || Integer.parseInt(fillLevel) < 0) {
             throw new IllegalArgumentException("Fill level cannot be greater than 100 or less than 0!");
         } else {
             this.fillLevel = fillLevel;
@@ -67,12 +67,12 @@ public class Item {
         return expirationDate;
     }
 
-    public int getFillLevel() {
+    public String getFillLevel() {
         return fillLevel;
     }
 
-    public void setFillLevel(int fillLevel) {
-        if (fillLevel > 100 || fillLevel < 0) {
+    public void setFillLevel(String fillLevel) {
+        if (Integer.parseInt(fillLevel) > 100 || Integer.parseInt(fillLevel) < 0) {
             throw new IllegalArgumentException("Fill level cannot be greater than 100 or less than 0!");
         } else {
             this.fillLevel = fillLevel;

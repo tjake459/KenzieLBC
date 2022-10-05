@@ -39,10 +39,10 @@ public class ItemServiceTest {
 
 
         Item item1 = new Item("name", location);
-        Item item2 = new Item("id1", "name2","brand","weight","date",50,
+        Item item2 = new Item("id1", "name2","brand","weight","date","50",
                 "location2");
-        ItemRecord record1 = new ItemRecord(item1);
-        ItemRecord record2 = new ItemRecord(item2);
+        ItemRecord record1 = createRecordFromItem(item1);
+        ItemRecord record2 = createRecordFromItem(item2);
         List<ItemRecord> records = new ArrayList<>();
         records.add(record1);
         records.add(record2);
@@ -143,7 +143,7 @@ public class ItemServiceTest {
         record.setLocation("location");
         record.setGenericName("name");
         record.setWeight("weight");
-        record.setFillLevel(50);
+        record.setFillLevel("50");
         record.setBrandName("brandname");
         record.setExpirationDate("date");
         when(itemRepository.findById(itemId)).thenReturn(Optional.of(record));
@@ -159,6 +159,19 @@ public class ItemServiceTest {
         Assertions.assertEquals(record.getFillLevel(), item.getFillLevel(), "the item fill level matches");
         Assertions.assertEquals(record.getBrandName(), item.getBrandName(), "the item brand name matches");
 
+    }
+
+    private ItemRecord createRecordFromItem(Item item) {
+        ItemRecord record = new ItemRecord();
+        record.setId(item.getId());
+        record.setGenericName(item.getGenericName());
+        record.setBrandName(item.getBrandName());
+        record.setWeight(item.getWeight());
+        record.setFillLevel(item.getFillLevel());
+        record.setExpirationDate(item.getExpirationDate());
+        record.setLocation(item.getLocation());
+
+        return record;
     }
 
 }

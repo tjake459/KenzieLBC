@@ -69,7 +69,7 @@ public class ItemController {
     //Helper method to convert an ItemCreateRequest into an Item
     private Item convertRequestIntoItem(ItemCreateRequest request) {
         return new Item(request.getId(), request.getGenericName(), request.getBrandName(), request.getWeight(),
-                request.getExpirationDate(), Integer.parseInt(request.getFillLevel()),
+                request.getExpirationDate(), request.getFillLevel(),
                 request.getLocation());
     }
 

@@ -13,7 +13,7 @@ public class ItemDao {
     }
 
     public ItemRecord addItem(Item item) {
-        ItemRecord record = new ItemRecord(item);
+        ItemRecord record = createRecordFromItem(item);
         mapper.save(record);
         return record;
     }
@@ -25,5 +25,18 @@ public class ItemDao {
     public void deleteItem(String itemId) {
         ItemRecord itemToDelete = mapper.load(ItemRecord.class, itemId);
         mapper.delete(itemToDelete);
+    }
+
+    private ItemRecord createRecordFromItem(Item item) {
+        ItemRecord record = new ItemRecord();
+        record.setId(item.getId());
+        record.setGenericName(item.getGenericName());
+        record.setBrandName(item.getBrandName());
+        record.setWeight(item.getWeight());
+        record.setFillLevel(item.getFillLevel());
+        record.setExpirationDate(item.getExpirationDate());
+        record.setLocation(item.getLocation());
+
+        return record;
     }
 }

@@ -14,31 +14,8 @@ public class ItemRecord {
     private String brandName;
     private String weight;
     private String expirationDate;
-    private int fillLevel;
+    private String fillLevel;
     private String location;
-
-    // blank constructor for tests. May remove this later as we continue to refactor, to me it makes sense for
-    // the constructor to take in an Item and set all the values that way, rather than doing a blank record
-    // and setting values manually
-    public ItemRecord() {
-        this.id = "";
-        this.genericName = "";
-        this.brandName = "";
-        this.weight = "";
-        this.expirationDate = "";
-        this.fillLevel = 0;
-        this.location = "";
-    }
-
-    public ItemRecord (Item item) {
-        this.id = item.getId();
-        this.genericName = item.getGenericName();
-        this.brandName = item.getBrandName();
-        this.weight = item.getWeight();
-        this.expirationDate = item.getExpirationDate();
-        this.fillLevel = item.getFillLevel();
-        this.location = item.getLocation();
-    }
 
     @DynamoDBHashKey(attributeName = "id")
     @DynamoDBIndexRangeKey(globalSecondaryIndexName = LOCATION_INDEX, attributeName = "id")
@@ -67,7 +44,7 @@ public class ItemRecord {
     }
 
     @DynamoDBAttribute(attributeName = "fillLevel")
-    public int getFillLevel() {
+    public String getFillLevel() {
         return fillLevel;
     }
 
@@ -97,8 +74,8 @@ public class ItemRecord {
         this.expirationDate = expirationDate;
     }
 
-    public void setFillLevel(int fillLevel) {
-        if (fillLevel > 100 || fillLevel < 0) {
+    public void setFillLevel(String fillLevel) {
+        if (Integer.parseInt(fillLevel) > 100 || Integer.parseInt(fillLevel) < 0) {
             throw new IllegalArgumentException("Fill level cannot be greater than 100 or less than 0!");
         } else {
             this.fillLevel = fillLevel;
