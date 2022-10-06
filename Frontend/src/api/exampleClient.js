@@ -13,7 +13,7 @@ export default class ExampleClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'getExample', 'createExample'];
+        const methodsToBind = ['clientLoaded', 'getExample', 'addItem'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -45,14 +45,19 @@ export default class ExampleClient extends BaseClass {
         }
     }
 
-    async createExample(name, errorCallback) {
+    async addItem(genericName, brandName, weight, expiration, fillLevel, location, errorCallback) {
         try {
-            const response = await this.client.post(`example`, {
-                name: name
+            const response = await this.client.post(`items`, {
+                genericName: genericName,
+                brandName: brandName,
+                weight: weight,
+                expirationDate: expiration,
+                fillLevel: fillLevel,
+                location: location
             });
             return response.data;
         } catch (error) {
-            this.handleError("createExample", error, errorCallback);
+            this.handleError("addItem", error, errorCallback);
         }
     }
 
