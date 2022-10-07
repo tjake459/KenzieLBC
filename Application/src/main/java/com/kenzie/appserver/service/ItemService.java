@@ -49,6 +49,12 @@ public class ItemService {
     }
 
     public Item addItem(Item item) {
+        // this while loop checks to see if an item with the same id already exists in the database. if it does,
+        // the id will regenerate and check again. it will only move forward when the item has a unique id.
+        // this prevents issues with get/delete methods that require id
+        while (getItem(item.getId()) != null) {
+            item.setId(Item.generateId(item.getGenericName()));
+        }
         ItemRecord itemRecord = createRecordFromItem(item);
 //        itemRepository.save(itemRecord);
         itemDao.addItem(item);

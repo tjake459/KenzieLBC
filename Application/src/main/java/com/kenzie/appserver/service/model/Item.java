@@ -3,7 +3,7 @@ package com.kenzie.appserver.service.model;
 import java.util.UUID;
 
 public class Item {
-    private final String id;
+    private String id;
     private final String genericName;
     private final String brandName;
     private final String weight;
@@ -14,7 +14,7 @@ public class Item {
     // bare minimum constructor (generating ID in constructor, item full by default). brandName, weight, &
     // expirationDate must be initialized, even if empty
     public Item(String genericName, String location) {
-        this.id = UUID.randomUUID().toString();
+        this.id = generateId(genericName);
         this.genericName = genericName;
         this.brandName = "";
         this.weight = "";
@@ -28,7 +28,7 @@ public class Item {
     public Item(String id, String genericName, String brandName, String weight,
                 String expirationDate, String fillLevel, String location) {
         if (id == null || id.equals("")) {
-            this.id = UUID.randomUUID().toString();
+            this.id = generateId(genericName);
         } else {
             this.id = id;
         }
@@ -49,6 +49,10 @@ public class Item {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getGenericName() {
@@ -85,5 +89,14 @@ public class Item {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    // generates an item id with the first 4 letters of the generic name + 10 random ints (i.e. test1234567890)
+    public static String generateId(String genericName) {
+        StringBuilder id = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            id.append((int) (Math.random() * 10));
+        }
+        return genericName.substring(0, 4) + id;
     }
 }
