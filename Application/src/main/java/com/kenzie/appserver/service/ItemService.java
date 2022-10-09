@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kenzie.appserver.utilities.ConverterUtility.createItemFromRecord;
+
 @Service
 public class ItemService {
 
@@ -20,7 +22,7 @@ public class ItemService {
     // itemDao and all the calls to itemDao are temporary, if we can get the repository working; they
     // aren't necessary in addition to the repository. for now, it's what works to get things to post to the database
     ItemDao itemDao;
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
     @Autowired
     public ItemService(ItemRepository itemRepository) {
@@ -103,16 +105,5 @@ public class ItemService {
         return record;
     }
 
-    private Item createItemFromRecord(ItemRecord record) {
-        Item item = new Item(record.getId(),
-                                record.getGenericName(),
-                                record.getBrandName(),
-                                record.getWeight(),
-                                record.getExpirationDate(),
-                                record.getFillLevel(),
-                                record.getLocation());
-
-        return item;
-    }
 
 }

@@ -24,6 +24,11 @@ public class QueryUtility {
     }
 
     public class ItemControllerClient {
+        public ResultActions getItem(String id) throws Exception {
+            return mvc.perform(get("/items/{id}", id)
+                    .accept(MediaType.APPLICATION_JSON));
+        }
+
         public ResultActions getItemsInContainer(String container) throws Exception {
             return mvc.perform(get("/items/{container}", container)
                     .accept(MediaType.APPLICATION_JSON));

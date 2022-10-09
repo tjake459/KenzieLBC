@@ -16,9 +16,9 @@ public class Item {
     public Item(String genericName, String location) {
         this.id = generateId(genericName);
         this.genericName = genericName;
-        this.brandName = "";
-        this.weight = "";
-        this.expirationDate = "";
+        this.brandName = "N/A";
+        this.weight = "N/A";
+        this.expirationDate = "N/A";
         this.fillLevel = "100";
         this.location = location;
     }

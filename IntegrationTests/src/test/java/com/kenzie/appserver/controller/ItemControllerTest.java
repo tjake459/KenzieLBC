@@ -4,7 +4,6 @@ import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.QueryUtility;
 import com.kenzie.appserver.TestUtility;
 import com.kenzie.appserver.controller.model.ItemCreateRequest;
-import com.kenzie.appserver.service.ItemService;
 import com.kenzie.appserver.service.model.Item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,21 +16,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.kenzie.appserver.utilities.ConverterUtility.createRequestFromItem;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @IntegrationTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ItemControllerTest {
     @Autowired
     private MockMvc mvc;
-
-    @Autowired
-    ItemService itemService;
 
     private final MockNeat mockNeat = MockNeat.threadLocal();
 
@@ -50,30 +46,28 @@ class ItemControllerTest {
     // troubleshooting the repo, we can delete them.
     @Test
     public void testData_createSuccessful() throws Exception {
-        testUtil.createTestData();
+        testUtil.createTestDataSet();
     }
 
     @Test
     public void testData_cleanUpSuccessful() throws Exception {
-        testUtil.cleanUpTestData();
+        testUtil.cleanUpTestDataSet();
     }
 
+    // this test is failing, returning status 404, even though the test item is populating in dynamodb.
+    // must investigate why
     @Test
     public void getById_Exists() throws Exception {
         String genericName = "testName";
         String location = "testLocation";
 
         Item item = new Item(genericName, location);
-        Item persistedItem = itemService.addItem(item);
-        mvc.perform(get("/items/{itemId}", persistedItem.getId())
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("id")
-                        .value(is(item.getId())))
-                .andExpect(jsonPath("genericName")
-                        .value(is(genericName)))
-                .andExpect(status().isOk());
+        queryUtility.itemControllerClient.addNewItem(createRequestFromItem(item));
+        queryUtility.itemControllerClient.getItem(item.getId())
+                        .andExpect(status().isOk());
     }
 
+    // refactor to use queryutility
     @Test
     public void createExample_CreateSuccessful() throws Exception {
         String name = mockNeat.strings().valStr();

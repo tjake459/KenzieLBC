@@ -13,6 +13,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kenzie.appserver.utilities.ConverterUtility.convertItemIntoResponse;
+import static com.kenzie.appserver.utilities.ConverterUtility.convertRequestIntoItem;
+
 @RestController
 @RequestMapping("/items")
 public class ItemController {
@@ -23,7 +26,19 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/{container}")
+    @GetMapping("/{id}")
+    public ResponseEntity<ItemResponse> getItem(@PathVariable("id") String id) {
+
+        Item item = itemService.getItem(id);
+        if (item == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(convertItemIntoResponse(item));
+
+    }
+
+    @GetMapping("/containers/{container}")
     public ResponseEntity<List<ItemResponse>> getItemsInContainer(@PathVariable("container") String container) {
 
         //Get a list of Items in the identified container using the ItemService
@@ -66,23 +81,4 @@ public class ItemController {
         return ResponseEntity.ok(response);
     }
 
-    //Helper method to convert an ItemCreateRequest into an Item
-    private Item convertRequestIntoItem(ItemCreateRequest request) {
-        return new Item(request.getId(), request.getGenericName(), request.getBrandName(), request.getWeight(),
-                request.getExpirationDate(), request.getFillLevel(),
-                request.getLocation());
-    }
-
-    //Helper method ot convert Item into an ItemResponse
-    private ItemResponse convertItemIntoResponse(Item item) {
-        ItemResponse response = new ItemResponse();
-        response.setId(item.getId());
-        response.setGenericName(item.getGenericName());
-        response.setBrandName(item.getBrandName());
-        response.setWeight(item.getWeight());
-        response.setExpirationDate(item.getExpirationDate());
-        response.setFillLevel(String.valueOf(item.getFillLevel()));
-        response.setLocation(item.getLocation());
-        return response;
-    }
 }

@@ -14,10 +14,12 @@ public class TestUtility {
     private final String ITEM_ID = "ID";
     private final String GENERIC_NAME = "GenericName";
     private final String BRAND_NAME = "BrandName";
-    private final String WEIGHT = "10oz";
-    private final String EXPIRATION_DATE = "05/22/2023";
+    private final String WEIGHT = "Weight";
+    private final String EXPIRATION_DATE = "Date";
     private final String FILL_LEVEL = "100";
-    private final String LOCATION = "Pantry";
+    private final String LOCATION_1 = "Pantry";
+    private final String LOCATION_2 = "Refrigerator";
+    private final String LOCATION_3 = "Cabinet";
 
     private int counter = 1;
 
@@ -28,7 +30,7 @@ public class TestUtility {
         this.queryUtility = queryUtility;
     }
 
-    public void createTestData() throws Exception {
+    public void createTestDataSet() throws Exception {
         List<ItemCreateRequest> requestList = createRequestList();
 
         for (ItemCreateRequest request : requestList) {
@@ -38,7 +40,7 @@ public class TestUtility {
         System.out.println("Test data created!");
     }
 
-    public void cleanUpTestData() throws Exception {
+    public void cleanUpTestDataSet() throws Exception {
         for (int i = 1; i < 11; i++) {
             queryUtility.itemControllerClient.deleteItem(ITEM_ID + i);
         }
@@ -53,7 +55,7 @@ public class TestUtility {
         request.setWeight(WEIGHT);
         request.setExpirationDate(EXPIRATION_DATE);
         request.setFillLevel(FILL_LEVEL);
-        request.setLocation(LOCATION);
+        request.setLocation(randomizeLocation());
 
         counter++;
 
@@ -67,5 +69,15 @@ public class TestUtility {
         }
 
         return requestList;
+    }
+
+    private String randomizeLocation() {
+        int random = (int) (Math.random() * 4);
+        switch (random) {
+            case 0: return LOCATION_1;
+            case 1: return LOCATION_2;
+            case 3: return LOCATION_3;
+        }
+        return LOCATION_3;
     }
 }
