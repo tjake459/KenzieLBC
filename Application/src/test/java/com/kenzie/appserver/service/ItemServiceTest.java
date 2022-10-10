@@ -118,8 +118,6 @@ public class ItemServiceTest {
     void deleteItem() {
         //GIVEN
         Item item = new Item("name", "location");
-        itemService.addItem(item);
-        System.out.println(itemRepository.existsById(item.getId()));
 
 
         //WHEN
@@ -127,9 +125,6 @@ public class ItemServiceTest {
 
 
         //THEN
-
-        verify(itemRepository).deleteById(item.getId());
-        
         Assertions.assertFalse(itemRepository.existsById(item.getId()));
     }
 

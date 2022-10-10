@@ -54,11 +54,11 @@ public class ItemService {
         // this while loop checks to see if an item with the same id already exists in the database. if it does,
         // the id will regenerate and check again. it will only move forward when the item has a unique id.
         // this prevents issues with get/delete methods that require id
-        while (getItem(item.getId()) != null) {
+        while (itemDao.getItem(item.getId()) != null) {
             item.setId(Item.generateId(item.getGenericName()));
         }
         ItemRecord itemRecord = createRecordFromItem(item);
-//        itemRepository.save(itemRecord);
+        itemRepository.save(itemRecord);
         itemDao.addItem(item);
         return item;
     }
@@ -74,7 +74,9 @@ public class ItemService {
     // trying to delete something from the repository that isn't there will throw an exception
     public void deleteItem(String itemId) {
 //        itemRepository.deleteById(itemId);
-        itemDao.deleteItem(itemId);
+        if(itemDao.getItem(itemId) != null) {
+            itemDao.deleteItem(itemId);
+        }
     }
 
 
