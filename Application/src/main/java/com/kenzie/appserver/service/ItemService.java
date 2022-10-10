@@ -79,7 +79,6 @@ public class ItemService {
         }
     }
 
-
     public Item getItem(String itemId) {
         return itemRepository
                 .findById(itemId)
