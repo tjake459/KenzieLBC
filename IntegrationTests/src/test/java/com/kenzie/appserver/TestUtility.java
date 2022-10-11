@@ -23,8 +23,6 @@ public class TestUtility {
 
     private int counter = 1;
 
-    // I can make this mock data more versatile if needed (i.e. different item locations to test sorting), but this is
-    // a basic version.
     public TestUtility(MockMvc mvc, QueryUtility queryUtility) {
         this.mvc = mvc;
         this.queryUtility = queryUtility;
@@ -46,7 +44,7 @@ public class TestUtility {
         }
     }
 
-    private ItemCreateRequest createRequest() {
+    public ItemCreateRequest createSingleRequest() {
 
         ItemCreateRequest request = new ItemCreateRequest();
         request.setId(ITEM_ID + counter);
@@ -65,7 +63,7 @@ public class TestUtility {
     private List<ItemCreateRequest> createRequestList() {
         List<ItemCreateRequest> requestList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            requestList.add(createRequest());
+            requestList.add(createSingleRequest());
         }
 
         return requestList;
