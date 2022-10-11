@@ -42,20 +42,6 @@ class ItemControllerTest {
         testUtil = new TestUtility(mvc, queryUtility);
     }
 
-    // the below 2 tests are for manual testing the successful population and deletion of test data. when we're done
-    // troubleshooting the repo, we can delete them.
-    @Test
-    public void testData_createSuccessful() throws Exception {
-        testUtil.createTestDataSet();
-    }
-
-    @Test
-    public void testData_cleanUpSuccessful() throws Exception {
-        testUtil.cleanUpTestDataSet();
-    }
-
-    // this test is failing, returning status 404, even though the test item is populating in dynamodb.
-    // must investigate why
     @Test
     public void getById_Exists() throws Exception {
         String genericName = "testName";
@@ -67,44 +53,19 @@ class ItemControllerTest {
                         .andExpect(status().isOk());
     }
 
-    // refactor to use queryutility
     @Test
     public void createExample_CreateSuccessful() throws Exception {
-        String name = mockNeat.strings().valStr();
-
-        ItemCreateRequest itemCreateRequest = new ItemCreateRequest();
-
+        ItemCreateRequest itemCreateRequest = testUtil.createSingleRequest();
 
         mapper.registerModule(new JavaTimeModule());
 
-        mvc.perform(post("/items")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(itemCreateRequest)))
-                .andExpect(jsonPath("id")
-                        .exists())
-                .andExpect(jsonPath("genericName")
-                        .value(is(name)))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    public void getItemsInContainer_withValidContainer_returnsTrue(){
+        queryUtility.itemControllerClient.addNewItem(itemCreateRequest)
+                        .andExpect(jsonPath("id")
+                                .exists())
+                        .andExpect(jsonPath("genericName")
+                                .value(is(itemCreateRequest.getGenericName())))
+                        .andExpect(status().is2xxSuccessful());
 
     }
-
-    @Test
-    public void addNewItem_withValidRequest_returnsTrue(){
-
-    }
-
-    @Test
-    public void deleteItem_withValidItem_returnsTrue() {
-
-    }
-
-    @Test
-    public void updateItem_withValidItem_returnsTrue(){
-
-    }
+    
 }

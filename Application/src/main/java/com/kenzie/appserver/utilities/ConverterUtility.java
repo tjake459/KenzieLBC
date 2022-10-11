@@ -6,14 +6,13 @@ import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Item;
 
 public class ConverterUtility {
-    //Helper method to convert an ItemCreateRequest into an Item
+
     public static Item convertRequestIntoItem(ItemCreateRequest request) {
         return new Item(request.getId(), request.getGenericName(), request.getBrandName(), request.getWeight(),
                 request.getExpirationDate(), request.getFillLevel(),
                 request.getLocation());
     }
 
-    //Helper method ot convert Item into an ItemResponse
     public static ItemResponse convertItemIntoResponse(Item item) {
         ItemResponse response = new ItemResponse();
         response.setId(item.getId());
@@ -46,5 +45,18 @@ public class ConverterUtility {
         request.setFillLevel(item.getFillLevel());
         request.setLocation(item.getLocation());
         return request;
+    }
+
+    public static ItemRecord createRecordFromItem(Item item) {
+        ItemRecord record = new ItemRecord();
+        record.setId(item.getId());
+        record.setGenericName(item.getGenericName());
+        record.setBrandName(item.getBrandName());
+        record.setWeight(item.getWeight());
+        record.setFillLevel(item.getFillLevel());
+        record.setExpirationDate(item.getExpirationDate());
+        record.setLocation(item.getLocation());
+
+        return record;
     }
 }
