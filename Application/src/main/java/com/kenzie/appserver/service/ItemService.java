@@ -14,23 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.kenzie.appserver.utilities.ConverterUtility.createItemFromRecord;
+import static com.kenzie.appserver.utilities.ConverterUtility.createRecordFromItem;
 
 @Service
 public class ItemService {
 
     DynamoDBMapper mapper;
-    // itemDao and all the calls to itemDao are temporary, if we can get the repository working; they
-    // aren't necessary in addition to the repository. for now, it's what works to get things to post to the database
-    ItemDao itemDao;
     private final ItemRepository itemRepository;
 
     @Autowired
     public ItemService(ItemRepository itemRepository) {
         mapper = new DynamoDBMapper(DynamoDbClientProvider.getDynamoDBClient());
-        itemDao = new ItemDao(mapper);
         this.itemRepository = itemRepository;
     }
-
 
     public List<Item> getItemsInContainer(String location) {
         List<Item> items = new ArrayList<>();
@@ -51,15 +47,11 @@ public class ItemService {
     }
 
     public Item addItem(Item item) {
-        // this while loop checks to see if an item with the same id already exists in the database. if it does,
-        // the id will regenerate and check again. it will only move forward when the item has a unique id.
-        // this prevents issues with get/delete methods that require id
         while (getItem(item.getId()) != null) {
             item.setId(Item.generateId(item.getGenericName()));
         }
         ItemRecord itemRecord = createRecordFromItem(item);
-//        itemRepository.save(itemRecord);
-        itemDao.addItem(item);
+        itemRepository.save(itemRecord);
         return item;
     }
 
@@ -69,12 +61,8 @@ public class ItemService {
         return item;
     }
 
-    // until the repository is working correctly, this method will actually always throw an exception if
-    // the call to the repository weren't commented out, because nothing is saving to the repository, and therefore
-    // trying to delete something from the repository that isn't there will throw an exception
     public void deleteItem(String itemId) {
-//        itemRepository.deleteById(itemId);
-        itemDao.deleteItem(itemId);
+        itemRepository.deleteById(itemId);
     }
 
 
@@ -91,19 +79,4 @@ public class ItemService {
                         item.getLocation()))
                 .orElse(null);
     }
-
-    private ItemRecord createRecordFromItem(Item item) {
-        ItemRecord record = new ItemRecord();
-        record.setId(item.getId());
-        record.setGenericName(item.getGenericName());
-        record.setBrandName(item.getBrandName());
-        record.setWeight(item.getWeight());
-        record.setFillLevel(item.getFillLevel());
-        record.setExpirationDate(item.getExpirationDate());
-        record.setLocation(item.getLocation());
-
-        return record;
-    }
-
-
 }
